@@ -6,13 +6,14 @@ const transTab = document.getElementById('transactionsTab');
 const newTransTab = document.getElementById('newTransactionTab');
 const transactionsContainer = document.getElementById('transactionsContainer');
 const newTransactionContainer = document.getElementById('newTransactionContainer');
+const transCardsContainer = document.getElementById('transCardsContainer');
 const currenciesDropdown = document.querySelectorAll('.currencies-select');
 const addTransactionBtn = document.getElementById('addTransaction');
 const requiredNote = document.getElementById('requiredNote');
 const successNote = document.getElementById('successNote');
 
 
-let balance = 400;
+let balance = 415;
 localStorage.getItem('balance') == null ? localStorage.setItem('balance', balance) : balance = localStorage.getItem('balance');
 
 let transactions = [
@@ -156,12 +157,36 @@ const loadCurrencies = async () => {
     }
 };
 
-
+function loadTransactions() {
+    transactions.forEach(trans => {
+        const { type, title, amount, currency } = trans;
+        if (type == 'income')
+            transCardsContainer.innerHTML +=
+                `<div class="trans-card flex row center">
+                    <img src="./assets/icons/icons8-income-60.png" alt="income-icon" />
+                    <div class="trans-text flex column">
+                        <h4>Income</h4>
+                        <p class="trans-title small">${title}</p>
+                    </div>
+                    <div class="trans-amount small">${amount} ${currency}</div>
+                </div>`;
+        else
+            transCardsContainer.innerHTML +=
+                `<div class="trans-card flex row center">
+                    <img src="./assets/icons/icons8-expense-60.png" alt="expense-icon" />
+                    <div class="trans-text flex column">
+                        <h4>Expense</h4>
+                        <p class="trans-title small">${title}</p>
+                    </div>
+                    <div class="trans-amount small">${amount} ${currency}</div>
+                </div>`;
+    });
+}
 
 
 calculateBalance('income', 0, 'USD');
 loadCurrencies();
-
+loadTransactions();
 
 
 
