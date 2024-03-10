@@ -1,5 +1,3 @@
-// add onchange="filterCurrencies()" for the select dropdowns
-
 const date = document.getElementById('date');
 const balanceSpan = document.getElementById('balance');
 const transTab = document.getElementById('transactionsTab');
@@ -11,6 +9,11 @@ const currenciesDropdown = document.querySelectorAll('.currencies-select');
 const addTransactionBtn = document.getElementById('addTransaction');
 const requiredNote = document.getElementById('requiredNote');
 const successNote = document.getElementById('successNote');
+const transactionType = document.getElementById('transactionType');
+const amountFromInput = document.getElementById('amountFrom');
+const amountToInput = document.getElementById('amountTo');
+const filterCurrenciesDropdown = document.getElementById('currencies');
+
 
 
 let balance = 415;
@@ -50,7 +53,6 @@ let transactions = [
 ];
 
 localStorage.getItem('transactions') == null ? localStorage.setItem('transactions', JSON.stringify(transactions)) : transactions = JSON.parse(localStorage.getItem('transactions'));
-
 
 const currentDate = new Date();
 const formattedDate = currentDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -96,7 +98,7 @@ function calculateBalance(type, amount, currency) {
 
     result.then((response) => response.json())
         .then((convertedAmount) => {
-            type === 'icncome' ? balance = Number(Number(balance) + Number(convertedAmount)).toFixed(2) :
+            type === 'income' ? balance = Number(Number(balance) + Number(convertedAmount)).toFixed(2) :
                 balance = Number(Number(balance) - Number(convertedAmount)).toFixed(2);
 
             localStorage.setItem('balance', balance);
@@ -132,8 +134,8 @@ function addTransaction() {
     transactions.push(newTrans);
     localStorage.setItem('transactions', JSON.stringify(transactions));
 
-    console.log(amount);
     calculateBalance(type, amount, currency);
+    loadTransactions();
 };
 
 function toggleTabs() {
@@ -157,29 +159,56 @@ const loadCurrencies = async () => {
     }
 };
 
+function generateTransCard(type, title, amount, currency) {
+    if (type == 'income')
+        transCardsContainer.innerHTML +=
+            `<div class="trans-card flex row center">
+                <img src="./assets/icons/icons8-income-60.png" alt="income-icon" />
+                <div class="trans-text flex column">
+                    <h4>Income</h4>
+                    <p class="trans-title small">${title}</p>
+                </div>
+                <div class="trans-amount small">${amount} ${currency}</div>
+            </div>`;
+    else
+        transCardsContainer.innerHTML +=
+            `<div class="trans-card flex row center">
+                <img src="./assets/icons/icons8-expense-60.png" alt="expense-icon" />
+                <div class="trans-text flex column">
+                    <h4>Expense</h4>
+                    <p class="trans-title small">${title}</p>
+                </div>
+                <div class="trans-amount small">${amount} ${currency}</div>
+            </div>`;
+}
+
+function filterTransactions(ftype, famountFrom, famountTo, fselectedCurrencies) {
+    if(Array.isArray(transactions))
+        return transactions.filter(transaction => {
+            return (
+                (ftype === 'all' || transaction.type === ftype) &&
+                (!famountFrom || transaction.amount >= Number(famountFrom)) &&
+                (!famountTo || transaction.amount <= Number(famountTo)) &&
+                (fselectedCurrencies.length === 0 || fselectedCurrencies.includes('all') 
+                    || fselectedCurrencies.includes(transaction.currency))
+            );
+        });
+}
+
 function loadTransactions() {
+    transCardsContainer.innerHTML = '';
+    transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+    const ftype = transactionType.value;
+    const famountFrom = amountFromInput.value;
+    const famountTo = amountToInput.value;
+    const fselectedCurrencies = Array.from(filterCurrenciesDropdown.selectedOptions).map(option => option.value);
+
+    transactions = filterTransactions(ftype, famountFrom, famountTo, fselectedCurrencies) || [];
+
     transactions.forEach(trans => {
         const { type, title, amount, currency } = trans;
-        if (type == 'income')
-            transCardsContainer.innerHTML +=
-                `<div class="trans-card flex row center">
-                    <img src="./assets/icons/icons8-income-60.png" alt="income-icon" />
-                    <div class="trans-text flex column">
-                        <h4>Income</h4>
-                        <p class="trans-title small">${title}</p>
-                    </div>
-                    <div class="trans-amount small">${amount} ${currency}</div>
-                </div>`;
-        else
-            transCardsContainer.innerHTML +=
-                `<div class="trans-card flex row center">
-                    <img src="./assets/icons/icons8-expense-60.png" alt="expense-icon" />
-                    <div class="trans-text flex column">
-                        <h4>Expense</h4>
-                        <p class="trans-title small">${title}</p>
-                    </div>
-                    <div class="trans-amount small">${amount} ${currency}</div>
-                </div>`;
+        generateTransCard(type, title, amount, currency);
     });
 }
 
@@ -193,5 +222,10 @@ loadTransactions();
 transTab.addEventListener('click', () => { toggleTabs(); });
 
 newTransTab.addEventListener('click', () => { toggleTabs(); });
+
+transactionType.addEventListener('change', () => { loadTransactions(); });
+amountFromInput.addEventListener('input', () => { loadTransactions(); });
+amountToInput.addEventListener('input', () => { loadTransactions(); });
+filterCurrenciesDropdown.addEventListener('change', () => { loadTransactions(); });
 
 addTransactionBtn.addEventListener('click', () => { addTransaction(); });
