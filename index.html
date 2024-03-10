@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/index.css">
+    <title>Trackoney</title>
+    <link rel="icon" href="./assets/icons/money-green.png">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha384-..."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/colors.css">
+    <link rel="stylesheet" href="./styles/utilities.css">
+    <link rel="stylesheet" href="./styles/index.css">
+</head>
+<body>
+    <header class="header white bg-green flex row center">
+        <h1>Track</h1><img class="logo-money" src="./assets/icons/money-white.png" alt="Money Icon"/><h1>oney</h1>
+        <img class="notification" src="./assets/icons/icons8-notification-52.png" />
+    </header>
+
+    <main>
+        <div class="balance-container bg-green flex column center white">
+            <div class="date flex column center">
+                <p class="light small fade">Today is</p>
+                <p class="today" id="date">Fri, 21 Mar</p>
+            </div>
+
+            <div class="balance-box flex column">
+                <p class="light small">Current Balance</p>
+                <h3><span class="small light fade">$</span><span id="balance"></span></h3>
+            </div>
+            <img class="arrow-img" src="./assets/icons/arrow-bg.png" alt="arrow graph"/>
+        </div>
+
+        <div class="tabs flex row center">
+            <button class="t-history flex center bold active" id="transactionsTab"><img src="./assets/icons/icons8-payment-history-48.png"/>Transactions History</button>
+            <button class="new-t flex center bold" id="newTransactionTab"><img src="./assets/icons/icons8-transaction-48.png"/>New Transaction</button>
+        </div>
+
+        <div class="transactions-container" id="transactionsContainer">
+            <div class="filter flex row center">
+                <select class="type-select" id="transactionType">
+                    <option value="all">All Transactions</option>
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+
+                <input class="input" type="number" step="1" placeholder="Amount from" id="amountFrom" />
+
+                <input class="input" type="number" step="1" placeholder="Amount to" id="amountTo" />
+                
+                <select class="currencies-select" id="currencies" multiple>
+                    <option value="all">All Currencies</option>
+                </select>
+            </div>
+
+            <div class="transactions flex column center">
+                <div class="trans-card flex row center">
+                    <img src="./assets/icons/icons8-income-60.png" alt="income-icon" />
+                    <div class="trans-text flex column">
+                        <h4>Income</h4>
+                        <p class="trans-title small">Food & drinks</p>
+                    </div>
+                    <div class="trans-amount small">300 LBP</div>
+                </div>
+                <div class="trans-card flex row center">
+                    <img src="./assets/icons/icons8-expense-60.png" alt="expense-icon" />
+                    <div class="trans-text flex column">
+                        <h4>Expense</h4>
+                        <p class="trans-title small">Food & drinks</p>
+                    </div>
+                    <div class="trans-amount small">-300 LBP</div>
+                </div>
+                <div class="trans-card flex row center">
+                    <img src="./assets/icons/icons8-income-60.png" alt="income-icon" />
+                    <div class="trans-text flex column">
+                        <h4>Income</h4>
+                        <p class="trans-title small">Food & drinks</p>
+                    </div>
+                    <div class="trans-amount small">300 LBP</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="new-transaction flex column center hide" id="newTransactionContainer">
+            <select class="type-select" id="newTransactionType">
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+            </select>
+
+            <input class="input" type="text" placeholder="Transaction Title" id="newTransactionTitle" />
+            
+            <input class="input" type="number" step="1" placeholder="Amount" id="newTransactionAmount" />
+            
+            <select class="currencies-select" id="newTransCurrencies">
+            </select>
+
+            <p class="empty-input-note light hide" id="requiredNote">Please enter all the fields</p>
+            <p class="success-note light small hide" id="successNote">Transaction added successfully</p>
+
+            <button class="white bg-green" id="addTransaction">Add Transaction</button>
+        </div>
+    </main>
+
+    <footer class="footer small">
+        <div class="footer-content flex row gray-text">
+            <p>© 2024 Trackoney</p>
+            <div class="policy-terms flex row">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms and Conditions</a>
+            </div>
+            <div class="links">
+                <img src="./assets/icons/icons8-facebook-96.png" alt="facebook-link" />
+                <img src="./assets/icons/icons8-instagram-96.png" alt="instagram-link" />
+                <img src="./assets/icons/icons8-twitter-96.png" alt="twitter-link" />
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./scripts/index.js"></script>
+</body>
+</html>

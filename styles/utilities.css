@@ -1,0 +1,40 @@
+.flex {
+  display: flex;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.light {
+  font-weight: 300;
+}
+
+.small {
+  font-size: 14px;
+}
+
+.fade {
+  color: #f7f7f7c9;
+}
+
+.hide {
+  display: none;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.active {
+  background-color: #dcfff1 !important;
+}
