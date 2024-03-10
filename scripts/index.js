@@ -147,7 +147,7 @@ function toggleTabs() {
 
 const loadCurrencies = async () => {
     try {
-        const { data } = await axios.get("https://ivory-ostrich-yoke.cyclic.app/students/available");
+        const { data } = await axios.get("https://crowded-cyan-wildebeest.cyclic.app/students/available");
 
         currenciesDropdown.forEach((dropdown) => {
             data.forEach((currency) => {
