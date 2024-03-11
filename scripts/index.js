@@ -94,7 +94,7 @@ function calculateBalance(type, amount, currency) {
         body: raw,
     };
 
-    const result = fetch('https://ivory-ostrich-yoke.cyclic.app/students/convert', requestOptions);
+    const result = fetch('https://dull-pink-sockeye-tie.cyclic.app/students/convert', requestOptions);
 
     result.then((response) => response.json())
         .then((convertedAmount) => {
@@ -147,7 +147,7 @@ function toggleTabs() {
 
 const loadCurrencies = async () => {
     try {
-        const { data } = await axios.get("https://crowded-cyan-wildebeest.cyclic.app/students/available");
+        const { data } = await axios.get("https://dull-pink-sockeye-tie.cyclic.app/students/available");
 
         currenciesDropdown.forEach((dropdown) => {
             data.forEach((currency) => {
